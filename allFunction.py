@@ -10,8 +10,16 @@
 #            (df['name'] == 'Sydney City & Harbour at the door' | df['id'] != 10)
 #        ]
 #    )
-#    # get name = to or id not = 10
+#    # get name = to or id not =
 
+'''
+# search key term
+filt = df(df['name'] == 'Doe')
+df[filt] = df.loc[filt]
+
+only return reqired column
+ df.loc[filt, 'email']
+'''
 
 """
 to do list:

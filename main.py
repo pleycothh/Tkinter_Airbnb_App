@@ -29,26 +29,23 @@ def getKey():
     show_tabel_body(new_data)  # display all data from body
     #return new_data
 
-def get_neighbour(key):
-  #  key = e.get()
+def get_neighbour(key): # filter the data with key input
     if key == '':
         new_data = data
     else:
         print('key', key)
-        new_data = data[data['neighbourhood'] == str(key)] # how to search more key in value ???
-      # make key global, then only one universal key for key term search
-  #    print(
-  #        df[(df['name'] == 'Sydney City & Harbour at the door')]
-  #    )
+        filt = data['neighbourhood'].isin(key)    # file list key input at database
+        new_data = data.loc[filt]                 # return the data with filter applied
+      # idea: make key global, then only one universal key for key term search
 
-    print('new data', new_data)
+ #   print('new data', new_data)
     clear_tabel()              # clear the label
     show_tabel_title(data)     # display the title of data input
     show_tabel_body(new_data)  # display all data from body
     #return new_data
 
 
-def print_selection():
+def print_selection(): # gerate the key dictionary from check box
     result = {"Sydney":0,"Manly":0} #,3:0,4:0,5:0,6:0,7:0,8:0
     if var1.get() == 1:
         var = {"Sydney": 1}
@@ -67,16 +64,16 @@ def print_selection():
         var = {"Manly": 0}
         result.update(var)
 
-    checkBox_label.config(text=str(result))
-    get_checkbox(result) # display the table based on check box result
+    checkBox_label.config(text=str(result)) # display the table based on check box result
+    get_checkbox(result) # call convert function for each action loop
 
-def get_checkbox(dic):
+def get_checkbox(dic): # convert key dictionry to list
     new_value = []
     for (key, value) in dic.items():
         if value == 1:
             new_value.append(key)
-    print(type(new_value))
-    get_neighbour(new_value)
+  #  print(type(new_value))
+    get_neighbour(new_value) # call filter function after convert
 
 #--------------------------------- show --------------------------------------
 
