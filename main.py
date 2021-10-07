@@ -87,6 +87,19 @@ def get_neighbour(key): # filter the data with key input
     show_tabel_body(new_data)  # display all data from body
     #return new_data
 
+#--------------------------------- price slider function group------------------------------------
+
+
+def min_price(var):
+    global min_p
+    min_p = min_price_slider.get()
+    print('price:',min_p,'to',max_p)
+
+def max_price(var):
+    global max_p
+    max_p = max_price_slider.get()
+    print('price:',min_p,'to',max_p)
+
 #--------------------------------- plot price function group --------------------------------------
 
 def get_price():
@@ -120,6 +133,8 @@ def show_tabel_title(data_input):
 
 ############################ window ##############################
 data = load() # load all data
+min_p = 0
+max_p = 0
 
 window = tk.Tk()
 window.title("Simple Text Editor")
@@ -164,9 +179,17 @@ btn_Checkbutton_2 = tk.Checkbutton(fr_buttons, text="Manly" , variable=var2, onv
 
 checkBox_label = tk.Label(fr_buttons, bg='white', width=20, text='empty')
 
+#----------- price slider ------------------
+min_price_label = tk.Label(fr_buttons, text="Min price:")           # create label
+min_price_slider = tk.Scale(fr_buttons, from_=0, to=200,orient=tk.HORIZONTAL, command=min_price)
+
+max_price_label = tk.Label(fr_buttons, text="Max price:")           # create label
+max_price_slider = tk.Scale(fr_buttons, from_=0, to=200,orient=tk.HORIZONTAL, command=max_price)
 
 
-keyWord_label.grid(row = 0, column = 0)                                   # label
+# display from here:
+
+keyWord_label.grid(row = 0, column = 0)                                  # label
 e.grid(row = 1, column = 0, columnspan=3)                                # text box
 btn_Suburb.grid(row=2, column=0, sticky="ew")                            # search button
 suburb_label.grid(row = 3, column = 0)                                   # label
@@ -181,6 +204,12 @@ btn_Checkbutton_2.grid(row=5, column=0)                                        #
 #btn_Checkbutton_8.grid(row=11, column=0)                                       # check Buttons
 checkBox_label.grid(row=12, column=0)
 
+#----------- price slider ------------------
+min_price_label.grid(row=13, column=0)
+min_price_slider.grid(row=14, column=0)
+
+max_price_label.grid(row=15, column=0)
+max_price_slider.grid(row=16, column=0)
 ###################### right frame ###############################
 
 
