@@ -19,4 +19,5 @@ def load(path="src/listings_summary_dec18.csv"):
 
 
 
+
 load()
