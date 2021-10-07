@@ -16,11 +16,11 @@
 """
 to do list:
 
-!key term search ability
+!key term search ability # keyword
 
 !add more button
 
-!open external matlab figure
+!open external matlab figure # with price properties
 
 ! implement sqlite database
 
