@@ -36,6 +36,7 @@ def get_neighbour(key):
     else:
         print('key', key)
         new_data = data[data['neighbourhood'] == str(key)] # how to search more key in value ???
+      # make key global, then only one universal key for key term search
   #    print(
   #        df[(df['name'] == 'Sydney City & Harbour at the door')]
   #    )
