@@ -12,3 +12,29 @@
 #    )
 #    # get name = to or id not = 10
 
+
+"""
+to do list:
+
+!key term search ability
+
+!add more button
+
+!open external matlab figure
+
+! implement sqlite database
+
+Required Features:
+
+For a user-selected period, report the information of all listings in a suburb
+
+For a user-selected period, produce a chart to show the distribution of prices of properties
+
+For a user-selected period, retrieve all records that contain a keyword (user entered), e.g. pool, pet.
+
+Analysing how many customers commented on factors related to cleanliness (multiple key words
+
+may be associated with cleanliness – justify your selection).
+
+One other ‘insight’ or analysis tool of your choic
+"""
