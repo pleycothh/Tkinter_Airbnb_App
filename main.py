@@ -1,9 +1,7 @@
-from allFunction import *
+import pandas as pd
 import tkinter as tk
 
 ###################### load functions ##################################
-data = load()
-
 def myClick():
     # create a Label Widget
     hello = "Hello " + e.get() # get entry value as label
@@ -17,7 +15,7 @@ def getKey():
     if key == '':
         new_data = data
     else:
-        new_data = data[data['name'] == key]
+        new_data = data[data['neighbourhood'] == key]
 
     print(new_data)
     clear_tabel()              # clear the label
@@ -49,7 +47,13 @@ def clear_tabel():
    for widgets in fr_table.winfo_children():
       widgets.destroy()
 
+def load(path="src/listings_summary_dec18.csv"):
+    df = pd.read_csv(path)
+    return df
+
 ###################### window #########################
+data = load() # load all data
+
 window = tk.Tk()
 window.title("Simple Text Editor")
 
@@ -58,33 +62,23 @@ window.columnconfigure(1, minsize=800, weight=1)
 
 ###################### frames #############################
 # create two frame
-fr_buttons = tk.Frame(window,padx=5, pady=5)
-fr_table = tk.Frame(window,padx=5, pady=5)
+fr_buttons = tk.Frame(window,width=500, height=100,padx=5, pady=5)
+fr_table = tk.Frame(window,width=100, height=100,padx=5, pady=5)
 # display two frame
 fr_buttons.grid(row=0, column=0, sticky="ns",padx=5, pady=5)
 fr_table.grid(row=0, column=1, sticky="nsew",padx=5, pady=5)
 
 
-###################### box #############################
-e = tk.Entry(fr_buttons,width =10, borderwidth = 2)
-e.insert(0,"Enter hotel name")
-###################### buttons #############################
-
-# create two button under button frame
+###################### box ############################
+suburb_label = tk.Label(fr_buttons, text="Enter Suburb below")         # create label
+e = tk.Entry(fr_buttons,width =10, borderwidth = 2)                    # text box
+btn_Suburb = tk.Button(fr_buttons, text="Search",command=getKey)       # search button
 
 
 
-btn_Suburb = tk.Button(fr_buttons, text="Search",command=getKey)
-
-
-
-# display
-e.grid(row = 0, column = 0, columnspan=3)
-btn_Suburb.grid(row=1, column=0, sticky="ew")
-
-
-
-
+suburb_label.grid(row = 0, column = 0)                # label
+e.grid(row = 1, column = 0, columnspan=3)             # text box
+btn_Suburb.grid(row=2, column=0, sticky="ew")         # search button
 ###################### table ###############################
 
 #------------------- title--------------------------

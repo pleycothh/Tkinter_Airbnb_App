@@ -1,8 +1,3 @@
-import pandas as pd
-
-def load(path="src/listings_summary_dec18.csv"):
-    df = pd.read_csv(path)
-    return df
 
 #    print(df.head(3)) # print first 3 rows in database
 #    print(df['name']) # get the item id and columns named 'name'
@@ -17,7 +12,3 @@ def load(path="src/listings_summary_dec18.csv"):
 #    )
 #    # get name = to or id not = 10
 
-
-
-
-load()
