@@ -12,6 +12,15 @@ def myClick():
     # pack label to root window
     myLabel1.grid(row=5)
 
+def getKey(name):
+    # modify the database
+
+    # create new database
+
+    # update the result
+
+    print(name)
+
 ###################### window #########################
 window = tk.Tk()
 window.title("Simple Text Editor")
@@ -57,9 +66,10 @@ for head in header:
 
 #------------------- body--------------------------
 # r and c tell us where to grid the labels
-dRow = 0
+body = data.head(10) # show first ten value
+
 r = 1
-for rows in data.values:
+for rows in body.values:
     c = 0
     for col in rows:
         # i've added some styling
@@ -67,9 +77,6 @@ for rows in data.values:
         label.grid(row=r, column=c)
         c += 1
     r += 1
-    dRow += 1
-    if dRow == 10:
-        break
 
 
 ###################### loop #############################
