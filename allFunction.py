@@ -32,6 +32,8 @@ to do list:
 
 ! implement sqlite database
 
+! apply new frame within button frame
+
 Required Features:
 
 For a user-selected period, report the information of all listings in a suburb

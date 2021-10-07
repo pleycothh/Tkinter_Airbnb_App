@@ -14,9 +14,9 @@ def clear_tabel():
    for widgets in fr_table.winfo_children():
       widgets.destroy()
 
-#------------------------------- functions --------------------------------------
+#------------------------------- key search function group --------------------------------------
 
-def getKey():
+def getKey(): # unused !!
     key = e.get()
     if key == '':
         new_data = data
@@ -29,23 +29,19 @@ def getKey():
     show_tabel_body(new_data)  # display all data from body
     #return new_data
 
-def get_neighbour(key): # filter the data with key input
-    if key == '':
-        new_data = data
-    else:
-        print('key', key)
-        filt = data['neighbourhood'].isin(key)    # file list key input at database
-        new_data = data.loc[filt]                 # return the data with filter applied
-      # idea: make key global, then only one universal key for key term search
+def get_key(): # key word search by contains
+    key = e.get()
+    filt = data['name'].str.contains(str(key), na=False) # for string contains from 'everything', check key word
+    new_data = data.loc[filt]
 
- #   print('new data', new_data)
-    clear_tabel()              # clear the label
-    show_tabel_title(data)     # display the title of data input
+    print(new_data)
+    clear_tabel()  # clear the label
+    show_tabel_title(data)  # display the title of data input
     show_tabel_body(new_data)  # display all data from body
-    #return new_data
 
+#------------------------------ check box function group--------------------------
 
-def print_selection(): # gerate the key dictionary from check box
+def get_selection(): # gerate the key dictionary from check box
     result = {"Sydney":0,"Manly":0} #,3:0,4:0,5:0,6:0,7:0,8:0
     if var1.get() == 1:
         var = {"Sydney": 1}
@@ -75,7 +71,29 @@ def get_checkbox(dic): # convert key dictionry to list
   #  print(type(new_value))
     get_neighbour(new_value) # call filter function after convert
 
-#--------------------------------- show --------------------------------------
+def get_neighbour(key): # filter the data with key input
+    if key == '':
+        new_data = data
+    else:
+        print('key', key)
+        filt = data['neighbourhood'].isin(key)    # file list key input at database
+        new_data = data.loc[filt]                 # return the data with filter applied
+        # idea: make key global, then only one universal key for key term search
+        # new_data = data.loc[filt, 'nane', 'price']
+
+ #   print('new data', new_data)
+    clear_tabel()              # clear the label
+    show_tabel_title(data)     # display the title of data input
+    show_tabel_body(new_data)  # display all data from body
+    #return new_data
+
+#--------------------------------- plot price function group --------------------------------------
+
+def get_price():
+    price = data['price']
+
+
+#--------------------------------- display tabel function group --------------------------------------
 
 def show_tabel_body(data_input):
     body = data_input.head(16)  # show first ten value
@@ -100,7 +118,6 @@ def show_tabel_title(data_input):
         head_label.grid(row=0, column=c)
         c += 1
 
-
 ############################ window ##############################
 data = load() # load all data
 
@@ -121,9 +138,9 @@ fr_table.grid(row=0, column=1, sticky="nsew",padx=5, pady=5)           # display
 
 
 ###################### Left frame ############################
-keyWord_label = tk.Label(fr_buttons, text="Enter Key Word below:")           # create label
+keyWord_label = tk.Label(fr_buttons, text="Search by key word:")           # create label
 e = tk.Entry(fr_buttons,width =10, borderwidth = 2)                          # text box
-btn_Suburb = tk.Button(fr_buttons, text="Search",command=getKey)             # search button
+btn_Suburb = tk.Button(fr_buttons, text="Search",command=get_key)             # search button
 suburb_label = tk.Label(fr_buttons, text="Choice Suburb below:")             # create label
 
 #----------- check box ------------------
@@ -136,8 +153,8 @@ var2 = tk.IntVar()
 #var6 = tk.IntVar()
 #var7 = tk.IntVar()
 #var8 = tk.IntVar()
-btn_Checkbutton_1 = tk.Checkbutton(fr_buttons, text="Sydney", variable=var1, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
-btn_Checkbutton_2 = tk.Checkbutton(fr_buttons, text="Manly" , variable=var2, onvalue=1, offvalue=0,command=print_selection)     # Radio Buttons
+btn_Checkbutton_1 = tk.Checkbutton(fr_buttons, text="Sydney", variable=var1, onvalue=1, offvalue=0,command=get_selection)    # Radio Buttons
+btn_Checkbutton_2 = tk.Checkbutton(fr_buttons, text="Manly" , variable=var2, onvalue=1, offvalue=0,command=get_selection)     # Radio Buttons
 #btn_Checkbutton_3 = tk.Checkbutton(fr_buttons, text="Leichhardt", variable=var3, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
 #btn_Checkbutton_4 = tk.Checkbutton(fr_buttons, text="Wollahra", variable=var4, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
 #btn_Checkbutton_5 = tk.Checkbutton(fr_buttons, text="North Sydney", variable=var5, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
@@ -160,8 +177,8 @@ btn_Checkbutton_2.grid(row=5, column=0)                                        #
 #btn_Checkbutton_4.grid(row=7, column=0)                                        # check Buttons
 #btn_Checkbutton_5.grid(row=8, column=0)                                        # check Buttons
 #btn_Checkbutton_6.grid(row=9, column=0)                                        # check Buttons
-#btn_Checkbutton_7.grid(row=10, column=0)                                        # check Buttons
-#btn_Checkbutton_8.grid(row=11, column=0)                                        # check Buttons
+#btn_Checkbutton_7.grid(row=10, column=0)                                       # check Buttons
+#btn_Checkbutton_8.grid(row=11, column=0)                                       # check Buttons
 checkBox_label.grid(row=12, column=0)
 
 ###################### right frame ###############################
