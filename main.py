@@ -12,19 +12,23 @@ def myClick():
     # pack label to root window
     myLabel1.grid(row=5)
 
-def getKey(name):
-    new_data = data[data['name'] == name]
-    # modify the database
+def getKey():
+    key = e.get()
+    if key == '':
+        new_data = data
+    else:
+        new_data = data[data['name'] == key]
 
-    # create new database
-    print('get key')
-    # update the result
-    return new_data
-  #  print(name)
+    print(new_data)
+    clear_tabel()              # clear the label
+    show_tabel_title(data)     # display the title of data input
+    show_tabel_body(new_data)  # display all data from body
+    #return new_data
 
 def show_tabel_body(data_input):
-    r = 0
-    for rows in data_input.values:
+    body = data_input.head(10)  # show first ten value
+    r = 1
+    for rows in body.values:
         c = 0
         for col in rows:
             # i've added some styling
@@ -40,6 +44,11 @@ def show_tabel_title(data_input):
         head_label = tk.Label(fr_table, width=0, height=2, text=head)
         head_label.grid(row=0, column=c)
         c += 1
+
+def clear_tabel():
+   for widgets in fr_table.winfo_children():
+      widgets.destroy()
+
 ###################### window #########################
 window = tk.Tk()
 window.title("Simple Text Editor")
@@ -55,12 +64,17 @@ fr_table = tk.Frame(window,padx=5, pady=5)
 fr_buttons.grid(row=0, column=0, sticky="ns",padx=5, pady=5)
 fr_table.grid(row=0, column=1, sticky="nsew",padx=5, pady=5)
 
-###################### buttons #############################
-# create two button under button frame
+
+###################### box #############################
 e = tk.Entry(fr_buttons,width =10, borderwidth = 2)
+e.insert(0,"Enter hotel name")
+###################### buttons #############################
+
+# create two button under button frame
 
 
-btn_Suburb = tk.Button(fr_buttons, text="Search",command=lambda: getKey)
+
+btn_Suburb = tk.Button(fr_buttons, text="Search",command=getKey)
 
 
 
@@ -78,14 +92,11 @@ btn_Suburb.grid(row=1, column=0, sticky="ew")
 
 
 
-show_tabel_title(data) # display the title of data input
-
 #------------------- body--------------------------
 # r and c tell us where to grid the labels
 
-body = data.head(10) # show first ten value
-
-show_tabel_body(body) # display all data from body
+#body = data.head(10) # show first ten value
+#show_tabel_body(body) # display all data from body
 
 
 
