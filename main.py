@@ -93,17 +93,34 @@ def get_neighbour(key): # filter the data with key input
 def min_price(var):
     global min_p
     min_p = min_price_slider.get()
-    print('price:',min_p,'to',max_p)
+    #print('price:',min_p,'to', max_p)
+    get_price()
 
 def max_price(var):
     global max_p
     max_p = max_price_slider.get()
-    print('price:',min_p,'to',max_p)
+    #print('price:',min_p,'to', max_p)
+    get_price()
 
+def get_price(): # filter the data with key input
+
+    filt = (data['price'] >= min_p)   # file list key input at database
+    new_data = data.loc[filt]         # return the data with filter applied
+    print('filt', filt)
+
+ #   print('new data', new_data)
+    clear_tabel()              # clear the label
+    show_tabel_title(data)     # display the title of data input
+    show_tabel_body(new_data)  # display all data from body
+
+    #-------return price data for the plot--------
+    price_data = []
 #--------------------------------- plot price function group --------------------------------------
+def price_plot():
+    price_data = get_price()
+    print("price plot display here")
 
-def get_price():
-    price = data['price']
+
 
 
 #--------------------------------- display tabel function group --------------------------------------
@@ -181,10 +198,10 @@ checkBox_label = tk.Label(fr_buttons, bg='white', width=20, text='empty')
 
 #----------- price slider ------------------
 min_price_label = tk.Label(fr_buttons, text="Min price:")           # create label
-min_price_slider = tk.Scale(fr_buttons, from_=0, to=200,orient=tk.HORIZONTAL, command=min_price)
-
+min_price_slider = tk.Scale(fr_buttons, from_=0, to=500,orient=tk.HORIZONTAL, command=min_price)
 max_price_label = tk.Label(fr_buttons, text="Max price:")           # create label
-max_price_slider = tk.Scale(fr_buttons, from_=0, to=200,orient=tk.HORIZONTAL, command=max_price)
+max_price_slider = tk.Scale(fr_buttons, from_=0, to=500,orient=tk.HORIZONTAL, command=max_price)
+btn_price = tk.Button(fr_buttons, text="Show Price Figure",command=price_plot)             # search button
 
 
 # display from here:
@@ -210,6 +227,7 @@ min_price_slider.grid(row=14, column=0)
 
 max_price_label.grid(row=15, column=0)
 max_price_slider.grid(row=16, column=0)
+btn_price.grid(row=17, column=0)
 ###################### right frame ###############################
 
 
