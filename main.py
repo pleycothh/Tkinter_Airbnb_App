@@ -2,6 +2,8 @@ import pandas as pd
 import tkinter as tk
 #from tkinter import *
 #from PIL import ImageTK, Image
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 ###################### load functions ##################################
@@ -116,16 +118,29 @@ def get_price(): # filter the data with key input
     #-------return price data for the plot--------
     price_data = []
 #--------------------------------- plot price function group --------------------------------------
-def price_plot():
-    price_data = get_price()
-    print("price plot display here")
+def load_price():
+    price =  data["price"]
+    pp=[]
+    for i in price:
+        pp.append(i)
+    pp.sort()
+    pw = pp[:35500]
+    return pw
 
+def price_graph():
+    bnb_price = load_price()
+    house_prices =np.random.normal(200, 200, 3000) # 200 base price, change 200, 3000 data set
+    plt.hist(bnb_price, 50)
+    plt.show()
+
+#---------------------------------------- map plot-------------------------------------------
 
 
 
 #--------------------------------- display tabel function group --------------------------------------
 
 def show_tabel_body(data_input):
+
     body = data_input.head(16)  # show first ten value
     r = 1
     for rows in body.values:
@@ -139,6 +154,7 @@ def show_tabel_body(data_input):
 
     # display the data status after tabel
     status = tk.Label(fr_table, text="item received : "+str(len(data_input))+" of 36662", bd=1).grid(row=r+2, column=0)
+    return body
 
 def show_tabel_title(data_input):
     header = data_input.columns
@@ -201,10 +217,16 @@ min_price_label = tk.Label(fr_buttons, text="Min price:")           # create lab
 min_price_slider = tk.Scale(fr_buttons, from_=0, to=500,orient=tk.HORIZONTAL, command=min_price)
 max_price_label = tk.Label(fr_buttons, text="Max price:")           # create label
 max_price_slider = tk.Scale(fr_buttons, from_=0, to=500,orient=tk.HORIZONTAL, command=max_price)
-btn_price = tk.Button(fr_buttons, text="Show Price Figure",command=price_plot)             # search button
+btn_price = tk.Button(fr_buttons, text="Show Price Figure",command=price_graph)             # search button
 
+#-----------map plot ------------------
+clicked = tk.StringVar()
 
-# display from here:
+drop = tk.OptionMenu(window, clicked, "Monday", "Tuesday", "Wednesday" )
+drop.grid(row=0, column=0)
+load_price()
+
+########### display from here:##############
 
 keyWord_label.grid(row = 0, column = 0)                                  # label
 e.grid(row = 1, column = 0, columnspan=3)                                # text box
