@@ -31,12 +31,12 @@ for cor in pos:
 
 
 #------------- plot -------------------
-img = plt.imread('src/map.png')
+img = plt.imread('src/map_2.png')
 fig, ax = plt.subplots()
 # [151,151,35] , [-34.15, -33.5]
 
 
-ax.imshow(img, extent=[150.631, 151.354,-34.109, -33.605])
+ax.imshow(img, extent=[150.6310, 151.3258,-34.0088, -33.6950])
 ax.scatter(lonn, latt, s=0.1, alpha=0.5)
 
 plt.show()

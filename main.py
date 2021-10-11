@@ -161,15 +161,13 @@ def load_position(data):
     return latt, lonn
 def map_graph():
     lat, lon = load_position(data)
-    img = plt.imread('src/map.png')
+    img = plt.imread('src/map_2.png')
     fig, ax = plt.subplots()
     # [151,151,35] , [-34.15, -33.5]
-
-    ax.imshow(img, extent=[150.631, 151.354, -34.109, -33.605])
+    ax.imshow(img, extent=[150.6310, 151.3258, -34.0088, -33.6950])
     ax.scatter(lon, lat, s=0.1, alpha=0.5)
 
     plt.show()
-
 
 
 #---------------------------------------- scorll bar-------------------------------------------
