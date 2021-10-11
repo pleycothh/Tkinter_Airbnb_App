@@ -1,6 +1,7 @@
 import pandas as pd
 import tkinter as tk
-#from tkinter import *
+from tkinter import ttk
+from tkinter import *
 #from PIL import ImageTK, Image
 import numpy as np
 import matplotlib.pyplot as plt
@@ -13,8 +14,9 @@ def load(path="src/listings_summary_dec18.csv"):
     return df
 
 def clear_tabel():
-   for widgets in fr_table.winfo_children():
+   for widgets in second_frame.winfo_children():
       widgets.destroy()
+
 
 #------------------------------- key search function group --------------------------------------
 
@@ -30,6 +32,10 @@ def getKey(): # unused !!
     show_tabel_title(data)     # display the title of data input
     show_tabel_body(new_data)  # display all data from body
     #return new_data
+    #mycanvas = tk.Canvas(fr_table)
+    #mycanvas.pack()
+    #yscrollbar = tk.Scrollbar(fr_table, orient="vertical", command=mycanvas.yview)
+    #yscrollbar.pack(fill="y")
 
 def get_key(): # key word search by contains
     key = e.get()
@@ -137,40 +143,53 @@ def price_graph():
 
 
 
+#---------------------------------------- scorll bar-------------------------------------------
+def scroll_canvas():
+
+
+    pass
+def scroll_frame():
+    pass
+
 #--------------------------------- display tabel function group --------------------------------------
 
 def show_tabel_body(data_input):
 
-    body = data_input.head(16)  # show first ten value
+    body = data_input.head(50)  # show first ten value
     r = 1
     for rows in body.values:
         c = 0
         for col in rows:
             # i've added some styling
-            label = tk.Label(fr_table, width=0, height=2, text=col)
+            label = tk.Label(second_frame, width=0, height=2, text=col)
             label.grid(row=r, column=c)
             c += 1
         r += 1
 
     # display the data status after tabel
-    status = tk.Label(fr_table, text="item received : "+str(len(data_input))+" of 36662", bd=1).grid(row=r+2, column=0)
+    status = tk.Label(second_frame, text="item received : "+str(len(data_input))+" of 36662", bd=1).grid(row=r+2, column=0)
     return body
 
 def show_tabel_title(data_input):
     header = data_input.columns
     c = 0
+  #  my_listbox = tk.Listbox(fr_table, width=100)
     for head in header:
-        head_label = tk.Label(fr_table, width=0, height=2, text=head)
+        head_label = tk.Label(second_frame, width=0, height=2, text=head)
         head_label.grid(row=0, column=c)
+       # my_listbox.insert(tk.END, head)
         c += 1
 
+  #  my_listbox.pack()
 ############################ window ##############################
 data = load() # load all data
 min_p = 0
 max_p = 0
 
 window = tk.Tk()
-window.title("Simple Text Editor")
+window.geometry("1024x800")
+#window.resizable(False,False)
+window.title("Airbnb analysis app")
 
 window.rowconfigure(0, minsize=800, weight=1)
 window.columnconfigure(1, minsize=800, weight=1)
@@ -178,12 +197,27 @@ window.columnconfigure(1, minsize=800, weight=1)
 ###################### create frames #############################
 # create two frame
 fr_buttons = tk.Frame(window,width=500, height=100,padx=5, pady=5)     # create left frame
-fr_table = tk.Frame(window,width=100, height=100,padx=5, pady=5)       # create right frame
+fr_table = tk.Frame(window,padx=5, pady=5)                             # create right frame
 
 # display two frame
 fr_buttons.grid(row=0, column=0, sticky="ns",padx=5, pady=5)           # display left frame
 fr_table.grid(row=0, column=1, sticky="nsew",padx=5, pady=5)           # display right frame
 
+#---------------------scroll bar in second frame-----------------
+my_canvas = tk.Canvas(fr_table)
+my_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
+
+# add scrollbar
+my_scrollbar = ttk.Scrollbar(fr_table, orient=tk.VERTICAL, command=my_canvas.yview)
+my_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+# configure
+my_canvas.configure(yscrollcommand=my_scrollbar.set)
+my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion=my_canvas.bbox("all")))
+
+# sedonc_frame
+second_frame = tk.Frame(my_canvas)
+my_canvas.create_window((0, 0), window=second_frame, anchor="nw")
 
 ###################### Left frame ############################
 keyWord_label = tk.Label(fr_buttons, text="Search by key word:")           # create label
