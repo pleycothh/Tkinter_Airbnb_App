@@ -77,27 +77,22 @@ def get_checkbox(dic): # convert key dictionry to list
     for (key, value) in dic.items():
         if value == 1:
             new_value.append(key)
-  #  print(type(new_value))
     get_neighbour(new_value) # call filter function after convert
 
 def get_neighbour(key): # filter the data with key input
     if key == '':
         new_data = data
     else:
-        print('key', key)
         filt = data['neighbourhood'].isin(key)    # file list key input at database
         new_data = data.loc[filt]                 # return the data with filter applied
         # idea: make key global, then only one universal key for key term search
         # new_data = data.loc[filt, 'nane', 'price']
 
- #   print('new data', new_data)
     clear_tabel()              # clear the label
     show_tabel_title(data)     # display the title of data input
     show_tabel_body(new_data)  # display all data from body
-    #return new_data
 
 #--------------------------------- price slider function group------------------------------------
-
 
 def min_price(var):
     global min_p
