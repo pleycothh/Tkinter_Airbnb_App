@@ -1,16 +1,17 @@
-import pandas as pd
+﻿import pandas as pd
 import tkinter as tk
 from tkinter import ttk
 from tkinter import *
-#from PIL import ImageTK, Image
 import numpy as np
 import matplotlib.pyplot as plt
+
 
 
 ###################### load functions ##################################
 
 def load(path="src/listings_summary_dec18.csv"):
     df = pd.read_csv(path)
+   # df = df.groupby(['name','host_name', 'neighbourhood', 'room_type', 'price' ])
     return df
 
 def clear_tabel():
@@ -140,13 +141,18 @@ def price_graph():
     plt.show()
 
 #---------------------------------------- map plot-------------------------------------------
+def load_position():
+    lat = data["latitude"]
+    lan = data["longitude"]
+    pos = [0,0]
+    return pos
 
+def map_graph():
+    pos = load_position()
 
 
 #---------------------------------------- scorll bar-------------------------------------------
 def scroll_canvas():
-
-
     pass
 def scroll_frame():
     pass
@@ -155,7 +161,7 @@ def scroll_frame():
 
 def show_tabel_body(data_input):
 
-    body = data_input.head(50)  # show first ten value
+    body = data_input.head(20)  # show first ten value
     r = 1
     for rows in body.values:
         c = 0
@@ -254,11 +260,7 @@ max_price_slider = tk.Scale(fr_buttons, from_=0, to=500,orient=tk.HORIZONTAL, co
 btn_price = tk.Button(fr_buttons, text="Show Price Figure",command=price_graph)             # search button
 
 #-----------map plot ------------------
-clicked = tk.StringVar()
-
-drop = tk.OptionMenu(window, clicked, "Monday", "Tuesday", "Wednesday" )
-drop.grid(row=0, column=0)
-load_price()
+btn_map = tk.Button(fr_buttons, text="Show Map", command=map_graph)
 
 ########### display from here:##############
 
@@ -284,6 +286,12 @@ min_price_slider.grid(row=14, column=0)
 max_price_label.grid(row=15, column=0)
 max_price_slider.grid(row=16, column=0)
 btn_price.grid(row=17, column=0)
+
+#----------- map graph ----------------------
+btn_map.grid(row=18, column=0)
+
+
+
 ###################### right frame ###############################
 
 
