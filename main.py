@@ -13,8 +13,9 @@ from matplotlib.backends.backend_tkagg import  FigureCanvasTkAgg, NavigationTool
 
 def load(path="src/listings_summary_dec18.csv"):
     df = pd.read_csv(path)
-   # df = df.groupby(['name','host_name', 'neighbourhood', 'room_type', 'price' ])
-    return df
+    new_df = df[['name','host_name', 'neighbourhood', 'room_type', 'price']]
+    print(new_df.shape)
+    return new_df
 
 def clear_tabel():
    for widgets in second_frame.winfo_children():
@@ -33,7 +34,7 @@ def get_key(): # key word search by contains
     show_tabel_title(data)  # display the title of data input
     show_tabel_body(new_data)  # display all data from body
 
-    window.geometry("1025x801")
+    window.geometry("1080x801")
 #------------------------------ check box function group--------------------------
 
 def get_selection(): # gerate the key dictionary from check box
@@ -105,7 +106,7 @@ def get_selection(): # gerate the key dictionary from check box
 
     checkBox_label.config(text=str(result)) # display the table based on check box result
     get_checkbox(result) # call convert function for each action loop
-    window.geometry("1025x801")
+    window.geometry("1080x801")
 
 def get_checkbox(dic): # convert key dictionry to list
     new_value = []
