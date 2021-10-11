@@ -265,7 +265,8 @@ my_canvas.pack(side=LEFT,fill=BOTH, expand=1)
 
 # add scrollbar
 my_scrollbar_V = ttk.Scrollbar(fr_table, orient=tk.VERTICAL, command=my_canvas.yview)
-my_scrollbar_H = ttk.Scrollbar(fr_table, orient=tk.HORIZONTAL, command=my_canvas.xview)
+my_scrollbar_H = ttk.Scrollbar(fr_table, orient=tk.
+                               HORIZONTAL, command=my_canvas.xview)
 
 my_scrollbar_V.pack(side=RIGHT, fill=tk.Y)
 my_scrollbar_H.pack(side=BOTTOM, fill=tk.X)
@@ -315,8 +316,8 @@ max_price_label = tk.Label(fr_sliderPrice, text="Max price:")           # create
 max_price_slider = tk.Scale(fr_sliderPrice, from_=0, to=500,orient=tk.HORIZONTAL, command=max_price)
 
 #----------- action plot ------------------
-btn_price = tk.Button(fr_actionPlot, text="Show Price Figure",command=price_graph)             # search button
-btn_map = tk.Button(fr_actionPlot, text="Show Map", command=map_graph)
+btn_price = tk.Button(fr_actionPlot, height = 2, width = 20, text="Show Price Figure",command=price_graph,padx=5, pady=5)             # search button
+btn_map = tk.Button(fr_actionPlot,height = 2, width = 20, text="Show Map", command=map_graph,padx=5, pady=5)
 
 ########### display from here:##############
 
@@ -344,9 +345,9 @@ max_price_label.grid(row=3, column=0)
 max_price_slider.grid(row=4, column=0)
 
 
-#----------- map graph ----------------------
-btn_price.grid(row=0, column=0)
-btn_map.grid(row=1, column=0)
+#----------- action plot ----------------------
+btn_price.grid(row=0, column=0,padx=5, pady=5)
+btn_map.grid(row=1, column=0,padx=5, pady=5)
 
 
 
