@@ -1,14 +1,7 @@
 ############################check list########################################
 """
 
-
-
 dynamic databse / price / location (sqlite databse)
-
-button size
-
-functional scroll bar OR display selected data (work after refresh)
-
 
 """
 

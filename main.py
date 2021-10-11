@@ -13,8 +13,9 @@ from matplotlib.backends.backend_tkagg import  FigureCanvasTkAgg, NavigationTool
 
 def load(path="src/listings_summary_dec18.csv"):
     df = pd.read_csv(path)
-    new_df = df[['name','host_name', 'neighbourhood', 'room_type', 'price']]
+    new_df = df[['name','host_name', 'neighbourhood', 'room_type', 'price', 'latitude', 'longitude']]
     print(new_df.shape)
+
     return new_df
 
 def clear_tabel():
@@ -29,6 +30,9 @@ def get_key(): # key word search by contains
     key = e.get()
     filt = data['name'].str.contains(str(key), na=False) # for string contains from 'everything', check key word
     new_data = data.loc[filt]
+
+    global dynamic_database
+    dynamic_database = new_data # store result data into global database
 
     clear_tabel()  # clear the label
     show_tabel_title(data)  # display the title of data input
@@ -124,6 +128,9 @@ def get_neighbour(key): # filter the data with key input
         # idea: make key global, then only one universal key for key term search
         # new_data = data.loc[filt, 'nane', 'price']
 
+    global dynamic_database
+    dynamic_database = new_data
+
     clear_tabel()              # clear the label
     show_tabel_title(data)     # display the title of data input
     show_tabel_body(new_data)  # display all data from body
@@ -154,7 +161,12 @@ def get_price(): # filter the data with key input
 
 #--------------------------------- plot price function group --------------------------------------
 def load_price():
-    price =  data["price"]
+
+    try:
+        price = dynamic_database["price"]
+    except:
+        price =  data["price"]
+
     pp=[]
     for i in price:
         pp.append(i)
@@ -169,13 +181,17 @@ def price_graph():
 
 #---------------------------------------- map plot-------------------------------------------
 def load_position(data):
-    data = data.values
+    try:
+        data = dynamic_database.values
+    except:
+        data = data.values
+   # data = data.values
     pos = []
     latt = []
     lonn = []
     for row in data:
-        lat = row[6]
-        lon = row[7]
+        lat = row[5]
+        lon = row[6]
         position = [lat, lon]
         pos.append(position)
 
@@ -229,6 +245,8 @@ def show_tabel_title(data_input):
 data = load() # load all data
 min_p = 0
 max_p = 0
+
+
 
 window = tk.Tk()
 window.geometry("1024x800")
