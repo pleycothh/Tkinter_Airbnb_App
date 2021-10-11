@@ -53,7 +53,7 @@ def get_key(): # key word search by contains
 #------------------------------ check box function group--------------------------
 
 def get_selection(): # gerate the key dictionary from check box
-    result = {"Sydney":0,"Manly":0} #,3:0,4:0,5:0,6:0,7:0,8:0
+    result = {"Sydney":0,"Manly":0,"Leichhardt":0,"Woollahra":0,"North Sydney":0,"Waverley":0,"Mosman":0,"Pittwater":0} #,3:0,4:0,5:0,6:0,7:0,8:0
     if var1.get() == 1:
         var = {"Sydney": 1}
         result.update(var)
@@ -61,8 +61,7 @@ def get_selection(): # gerate the key dictionary from check box
     elif var1.get() == 0:
         var = {"Sydney": 0}
         result.update(var)
-       # checkBox_label.config(text=str(result[1] + result[2]))
-
+#--------------------------------------
     if var2.get() == 1:
         var = {"Manly": 1}
         result.update(var)
@@ -70,6 +69,55 @@ def get_selection(): # gerate the key dictionary from check box
     elif var2.get() == 0:
         var = {"Manly": 0}
         result.update(var)
+# --------------------------------------
+    if var3.get() == 1:
+        var = {"Leichhardt": 1}
+        result.update(var)
+        # checkBox_label.config(text=str(result[1] + result[2]))
+    elif var3.get() == 0:
+        var = {"Leichhardt": 0}
+        result.update(var)
+# --------------------------------------
+    if var4.get() == 1:
+        var = {"Woollahra": 1}
+        result.update(var)
+        # checkBox_label.config(text=str(result[1] + result[2]))
+    elif var4.get() == 0:
+        var = {"Woollahra": 0}
+        result.update(var)
+# --------------------------------------
+    if var5.get() == 1:
+        var = {"North Sydney": 1}
+        result.update(var)
+        # checkBox_label.config(text=str(result[1] + result[2]))
+    elif var5.get() == 0:
+        var = {"North Sydney": 0}
+        result.update(var)
+# --------------------------------------
+    if var6.get() == 1:
+        var = {"Waverley": 1}
+        result.update(var)
+        # checkBox_label.config(text=str(result[1] + result[2]))
+    elif var6.get() == 0:
+        var = {"Waverley": 0}
+        result.update(var)
+# --------------------------------------
+    if var7.get() == 1:
+        var = {"Mosman": 1}
+        result.update(var)
+        # checkBox_label.config(text=str(result[1] + result[2]))
+    elif var7.get() == 0:
+        var = {"Mosman": 0}
+        result.update(var)
+# --------------------------------------
+    if var8.get() == 1:
+        var = {"Pittwater": 1}
+        result.update(var)
+        # checkBox_label.config(text=str(result[1] + result[2]))
+    elif var8.get() == 0:
+        var = {"Pittwater": 0}
+        result.update(var)
+# --------------------------------------
 
     checkBox_label.config(text=str(result)) # display the table based on check box result
     get_checkbox(result) # call convert function for each action loop
@@ -180,7 +228,7 @@ def scroll_frame():
 
 def show_tabel_body(data_input):
 
-    body = data_input.head(20)  # show first ten value
+    body = data_input.head(50)  # show first ten value
     r = 1
     for rows in body.values:
         c = 0
@@ -265,20 +313,20 @@ btn_Search = tk.Button(fr_searchKey, text="Search",command=get_key)             
 suburb_label = tk.Label(fr_checkBox, text="Choice Suburb below:")             # create label
 var1 = tk.IntVar()
 var2 = tk.IntVar()
-#var3 = tk.IntVar()
-#var4 = tk.IntVar()
-#var5 = tk.IntVar()
-#var6 = tk.IntVar()
-#var7 = tk.IntVar()
-#var8 = tk.IntVar()
+var3 = tk.IntVar()
+var4 = tk.IntVar()
+var5 = tk.IntVar()
+var6 = tk.IntVar()
+var7 = tk.IntVar()
+var8 = tk.IntVar()
 btn_Checkbutton_1 = tk.Checkbutton(fr_checkBox, text="Sydney", variable=var1, onvalue=1, offvalue=0,command=get_selection)    # Radio Buttons
 btn_Checkbutton_2 = tk.Checkbutton(fr_checkBox, text="Manly" , variable=var2, onvalue=1, offvalue=0,command=get_selection)     # Radio Buttons
-#btn_Checkbutton_3 = tk.Checkbutton(fr_buttons, text="Leichhardt", variable=var3, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
-#btn_Checkbutton_4 = tk.Checkbutton(fr_buttons, text="Wollahra", variable=var4, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
-#btn_Checkbutton_5 = tk.Checkbutton(fr_buttons, text="North Sydney", variable=var5, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
-#btn_Checkbutton_6 = tk.Checkbutton(fr_buttons, text="Waverley", variable=var6, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
-#btn_Checkbutton_7 = tk.Checkbutton(fr_buttons, text="Mosman", variable=var7, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
-#btn_Checkbutton_8 = tk.Checkbutton(fr_buttons, text="Pittwater", variable=var8, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
+btn_Checkbutton_3 = tk.Checkbutton(fr_checkBox, text="Leichhardt", variable=var3, onvalue=1, offvalue=0,command=get_selection)    # Radio Buttons
+btn_Checkbutton_4 = tk.Checkbutton(fr_checkBox, text="Woollahra", variable=var4, onvalue=1, offvalue=0,command=get_selection)    # Radio Buttons
+btn_Checkbutton_5 = tk.Checkbutton(fr_checkBox, text="North Sydney", variable=var5, onvalue=1, offvalue=0,command=get_selection)    # Radio Buttons
+btn_Checkbutton_6 = tk.Checkbutton(fr_checkBox, text="Waverley", variable=var6, onvalue=1, offvalue=0,command=get_selection)    # Radio Buttons
+btn_Checkbutton_7 = tk.Checkbutton(fr_checkBox, text="Mosman", variable=var7, onvalue=1, offvalue=0,command=get_selection)    # Radio Buttons
+btn_Checkbutton_8 = tk.Checkbutton(fr_checkBox, text="Pittwater", variable=var8, onvalue=1, offvalue=0,command=get_selection)    # Radio Buttons
 
 checkBox_label = tk.Label(fr_checkBox, bg='white', width=20, text='empty')
 
@@ -302,13 +350,13 @@ btn_Search.grid(row=2, column=0, sticky="ew")                            # searc
 suburb_label.grid(row = 0, column = 0)                                   # label
 btn_Checkbutton_1.grid(row=1, column=0)                                        # check Buttons
 btn_Checkbutton_2.grid(row=2, column=0)                                        # check Buttons
-#btn_Checkbutton_3.grid(row=6, column=0)                                        # check Buttons
-#btn_Checkbutton_4.grid(row=7, column=0)                                        # check Buttons
-#btn_Checkbutton_5.grid(row=8, column=0)                                        # check Buttons
-#btn_Checkbutton_6.grid(row=9, column=0)                                        # check Buttons
-#btn_Checkbutton_7.grid(row=10, column=0)                                       # check Buttons
-#btn_Checkbutton_8.grid(row=11, column=0)                                       # check Buttons
-checkBox_label.grid(row=3, column=0)
+btn_Checkbutton_3.grid(row=3, column=0)                                        # check Buttons
+btn_Checkbutton_4.grid(row=4, column=0)                                        # check Buttons
+btn_Checkbutton_5.grid(row=5, column=0)                                        # check Buttons
+btn_Checkbutton_6.grid(row=6, column=0)                                        # check Buttons
+btn_Checkbutton_7.grid(row=7, column=0)                                       # check Buttons
+btn_Checkbutton_8.grid(row=8, column=0)                                       # check Buttons
+checkBox_label.grid(row=9, column=0)
 
 #----------- price slider ------------------
 
