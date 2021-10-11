@@ -1,15 +1,15 @@
 ############################check list########################################
 """
 
-enbed matplob
+
 
 dynamic databse / price / location (sqlite databse)
 
 button size
-add secondary frame
-functional scroll bar OR display selected data
 
-full suberb list
+functional scroll bar OR display selected data (work after refresh)
+
+
 """
 
 

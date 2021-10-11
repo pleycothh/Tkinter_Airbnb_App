@@ -23,33 +23,17 @@ def clear_tabel():
 
 #------------------------------- key search function group --------------------------------------
 
-def getKey(): # unused !!
-    key = e.get()
-    if key == '':
-        new_data = data
-    else:
-        new_data = data[data['neighbourhood'] == key]
-
-    print(new_data)
-    clear_tabel()              # clear the label
-    show_tabel_title(data)     # display the title of data input
-    show_tabel_body(new_data)  # display all data from body
-    #return new_data
-    #mycanvas = tk.Canvas(fr_table)
-    #mycanvas.pack()
-    #yscrollbar = tk.Scrollbar(fr_table, orient="vertical", command=mycanvas.yview)
-    #yscrollbar.pack(fill="y")
 
 def get_key(): # key word search by contains
     key = e.get()
     filt = data['name'].str.contains(str(key), na=False) # for string contains from 'everything', check key word
     new_data = data.loc[filt]
 
-    print(new_data)
     clear_tabel()  # clear the label
     show_tabel_title(data)  # display the title of data input
     show_tabel_body(new_data)  # display all data from body
 
+    window.geometry("1025x801")
 #------------------------------ check box function group--------------------------
 
 def get_selection(): # gerate the key dictionary from check box
@@ -121,6 +105,7 @@ def get_selection(): # gerate the key dictionary from check box
 
     checkBox_label.config(text=str(result)) # display the table based on check box result
     get_checkbox(result) # call convert function for each action loop
+    window.geometry("1025x801")
 
 def get_checkbox(dic): # convert key dictionry to list
     new_value = []
@@ -180,13 +165,6 @@ def price_graph():
     bnb_price = load_price()
     plt.hist(bnb_price, 50)
     plt.show()
-#    f = Figure(figsize=(5,5), dpi=100)
-#    a = f.add_subplot(111)
-#    a.hist(bnb_price, 50)
-#    canvas = FigureCanvasTkAgg(f)
-#    canvas.draw()
-#    canvas.get_tk_widget().grid(fr_table,row=0, column=0)
-
 
 #---------------------------------------- map plot-------------------------------------------
 def load_position(data):
@@ -207,6 +185,7 @@ def load_position(data):
         else:
             pass
     return latt, lonn
+
 def map_graph():
     lat, lon = load_position(data)
     img = plt.imread('src/map_2.png')
@@ -216,13 +195,6 @@ def map_graph():
     ax.scatter(lon, lat, s=0.1, alpha=0.5)
 
     plt.show()
-
-
-#---------------------------------------- scorll bar-------------------------------------------
-def scroll_canvas():
-    pass
-def scroll_frame():
-    pass
 
 #--------------------------------- display tabel function group --------------------------------------
 
@@ -239,21 +211,19 @@ def show_tabel_body(data_input):
             c += 1
         r += 1
 
-    # display the data status after tabel
+    # display the data status after table
     status = tk.Label(second_frame, text="item received : "+str(len(data_input))+" of 36662", bd=1).grid(row=r+2, column=0)
     return body
 
 def show_tabel_title(data_input):
     header = data_input.columns
     c = 0
-  #  my_listbox = tk.Listbox(fr_table, width=100)
+
     for head in header:
         head_label = tk.Label(second_frame, width=0, height=2, text=head)
         head_label.grid(row=0, column=c)
-       # my_listbox.insert(tk.END, head)
         c += 1
 
-  #  my_listbox.pack()
 ############################ window ##############################
 data = load() # load all data
 min_p = 0
@@ -288,21 +258,29 @@ fr_checkBox.grid(row=1, column=0, sticky="ns",padx=5, pady=5)
 fr_sliderPrice.grid(row=2, column=0, sticky="ns",padx=5, pady=5)
 fr_actionPlot.grid(row=3, column=0, sticky="ns",padx=5, pady=5)
 
-#---------------------scroll bar in second frame-----------------
+#--------------------- scroll bar in second frame -----------------
+
 my_canvas = tk.Canvas(fr_table)
-my_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
+my_canvas.pack(side=LEFT,fill=BOTH, expand=1)
 
 # add scrollbar
-my_scrollbar = ttk.Scrollbar(fr_table, orient=tk.VERTICAL, command=my_canvas.yview)
-my_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+my_scrollbar_V = ttk.Scrollbar(fr_table, orient=tk.VERTICAL, command=my_canvas.yview)
+my_scrollbar_H = ttk.Scrollbar(fr_table, orient=tk.HORIZONTAL, command=my_canvas.xview)
+
+my_scrollbar_V.pack(side=RIGHT, fill=tk.Y)
+my_scrollbar_H.pack(side=BOTTOM, fill=tk.X)
 
 # configure
-my_canvas.configure(yscrollcommand=my_scrollbar.set)
+my_canvas.configure(yscrollcommand=my_scrollbar_V.set)
+my_canvas.configure(xscrollcommand=my_scrollbar_H.set)
+
 my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion=my_canvas.bbox("all")))
 
-# sedonc_frame
+# second_frame
 second_frame = tk.Frame(my_canvas)
 my_canvas.create_window((0, 0), window=second_frame, anchor="nw")
+
+
 
 ###################### Left frame ############################
 keyWord_label = tk.Label(fr_searchKey, text="Search by key word:")           # create label
@@ -370,9 +348,6 @@ max_price_slider.grid(row=4, column=0)
 btn_price.grid(row=0, column=0)
 btn_map.grid(row=1, column=0)
 
-
-
-###################### right frame ###############################
 
 
 ###################### loop #############################
