@@ -4,6 +4,8 @@ from tkinter import ttk
 from tkinter import *
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import  FigureCanvasTkAgg, NavigationToolbar2Tk
 
 
 
@@ -110,15 +112,12 @@ def get_price(): # filter the data with key input
 
     filt = (data['price'] >= min_p)   # file list key input at database
     new_data = data.loc[filt]         # return the data with filter applied
-    print('filt', filt)
 
  #   print('new data', new_data)
     clear_tabel()              # clear the label
     show_tabel_title(data)     # display the title of data input
     show_tabel_body(new_data)  # display all data from body
 
-    #-------return price data for the plot--------
-    price_data = []
 #--------------------------------- plot price function group --------------------------------------
 def load_price():
     price =  data["price"]
@@ -131,9 +130,15 @@ def load_price():
 
 def price_graph():
     bnb_price = load_price()
-    house_prices =np.random.normal(200, 200, 3000) # 200 base price, change 200, 3000 data set
     plt.hist(bnb_price, 50)
     plt.show()
+#    f = Figure(figsize=(5,5), dpi=100)
+#    a = f.add_subplot(111)
+#    a.hist(bnb_price, 50)
+#    canvas = FigureCanvasTkAgg(f)
+#    canvas.draw()
+#    canvas.get_tk_widget().grid(fr_table,row=0, column=0)
+
 
 #---------------------------------------- map plot-------------------------------------------
 def load_position(data):
@@ -215,13 +220,25 @@ window.rowconfigure(0, minsize=800, weight=1)
 window.columnconfigure(1, minsize=800, weight=1)
 
 ###################### create frames #############################
-# create two frame
+# -------------------- create two frame -----------------------------
 fr_buttons = tk.Frame(window,width=500, height=100,padx=5, pady=5)     # create left frame
 fr_table = tk.Frame(window,padx=5, pady=5)                             # create right frame
 
 # display two frame
 fr_buttons.grid(row=0, column=0, sticky="ns",padx=5, pady=5)           # display left frame
 fr_table.grid(row=0, column=1, sticky="nsew",padx=5, pady=5)           # display right frame
+
+# ------------------------create secondary control frame --------------------------
+fr_searchKey = tk.Frame(fr_buttons, width=500,padx=5, pady=5)
+fr_checkBox = tk.Frame(fr_buttons, width=500,padx=5, pady=5)
+fr_sliderPrice = tk.Frame(fr_buttons, width=500,padx=5, pady=5)
+fr_actionPlot = tk.Frame(fr_buttons, width=500,padx=5, pady=5)
+
+# display secondary control frame
+fr_searchKey.grid(row=0, column=0, sticky="ns",padx=5, pady=5)
+fr_checkBox.grid(row=1, column=0, sticky="ns",padx=5, pady=5)
+fr_sliderPrice.grid(row=2, column=0, sticky="ns",padx=5, pady=5)
+fr_actionPlot.grid(row=3, column=0, sticky="ns",padx=5, pady=5)
 
 #---------------------scroll bar in second frame-----------------
 my_canvas = tk.Canvas(fr_table)
@@ -240,13 +257,12 @@ second_frame = tk.Frame(my_canvas)
 my_canvas.create_window((0, 0), window=second_frame, anchor="nw")
 
 ###################### Left frame ############################
-keyWord_label = tk.Label(fr_buttons, text="Search by key word:")           # create label
-e = tk.Entry(fr_buttons,width =10, borderwidth = 2)                          # text box
-btn_Suburb = tk.Button(fr_buttons, text="Search",command=get_key)             # search button
-suburb_label = tk.Label(fr_buttons, text="Choice Suburb below:")             # create label
+keyWord_label = tk.Label(fr_searchKey, text="Search by key word:")           # create label
+e = tk.Entry(fr_searchKey,width =10, borderwidth = 2)                          # text box
+btn_Search = tk.Button(fr_searchKey, text="Search",command=get_key)             # search button
 
 #----------- check box ------------------
-
+suburb_label = tk.Label(fr_checkBox, text="Choice Suburb below:")             # create label
 var1 = tk.IntVar()
 var2 = tk.IntVar()
 #var3 = tk.IntVar()
@@ -255,8 +271,8 @@ var2 = tk.IntVar()
 #var6 = tk.IntVar()
 #var7 = tk.IntVar()
 #var8 = tk.IntVar()
-btn_Checkbutton_1 = tk.Checkbutton(fr_buttons, text="Sydney", variable=var1, onvalue=1, offvalue=0,command=get_selection)    # Radio Buttons
-btn_Checkbutton_2 = tk.Checkbutton(fr_buttons, text="Manly" , variable=var2, onvalue=1, offvalue=0,command=get_selection)     # Radio Buttons
+btn_Checkbutton_1 = tk.Checkbutton(fr_checkBox, text="Sydney", variable=var1, onvalue=1, offvalue=0,command=get_selection)    # Radio Buttons
+btn_Checkbutton_2 = tk.Checkbutton(fr_checkBox, text="Manly" , variable=var2, onvalue=1, offvalue=0,command=get_selection)     # Radio Buttons
 #btn_Checkbutton_3 = tk.Checkbutton(fr_buttons, text="Leichhardt", variable=var3, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
 #btn_Checkbutton_4 = tk.Checkbutton(fr_buttons, text="Wollahra", variable=var4, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
 #btn_Checkbutton_5 = tk.Checkbutton(fr_buttons, text="North Sydney", variable=var5, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
@@ -264,45 +280,47 @@ btn_Checkbutton_2 = tk.Checkbutton(fr_buttons, text="Manly" , variable=var2, onv
 #btn_Checkbutton_7 = tk.Checkbutton(fr_buttons, text="Mosman", variable=var7, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
 #btn_Checkbutton_8 = tk.Checkbutton(fr_buttons, text="Pittwater", variable=var8, onvalue=1, offvalue=0,command=print_selection)    # Radio Buttons
 
-checkBox_label = tk.Label(fr_buttons, bg='white', width=20, text='empty')
+checkBox_label = tk.Label(fr_checkBox, bg='white', width=20, text='empty')
 
 #----------- price slider ------------------
-min_price_label = tk.Label(fr_buttons, text="Min price:")           # create label
-min_price_slider = tk.Scale(fr_buttons, from_=0, to=500,orient=tk.HORIZONTAL, command=min_price)
-max_price_label = tk.Label(fr_buttons, text="Max price:")           # create label
-max_price_slider = tk.Scale(fr_buttons, from_=0, to=500,orient=tk.HORIZONTAL, command=max_price)
-btn_price = tk.Button(fr_buttons, text="Show Price Figure",command=price_graph)             # search button
+min_price_label = tk.Label(fr_sliderPrice, text="Min price:")           # create label
+min_price_slider = tk.Scale(fr_sliderPrice, from_=0, to=500,orient=tk.HORIZONTAL, command=min_price)
+max_price_label = tk.Label(fr_sliderPrice, text="Max price:")           # create label
+max_price_slider = tk.Scale(fr_sliderPrice, from_=0, to=500,orient=tk.HORIZONTAL, command=max_price)
 
-#-----------map plot ------------------
-btn_map = tk.Button(fr_buttons, text="Show Map", command=map_graph)
+#----------- action plot ------------------
+btn_price = tk.Button(fr_actionPlot, text="Show Price Figure",command=price_graph)             # search button
+btn_map = tk.Button(fr_actionPlot, text="Show Map", command=map_graph)
 
 ########### display from here:##############
 
 keyWord_label.grid(row = 0, column = 0)                                  # label
 e.grid(row = 1, column = 0, columnspan=3)                                # text box
-btn_Suburb.grid(row=2, column=0, sticky="ew")                            # search button
-suburb_label.grid(row = 3, column = 0)                                   # label
+btn_Search.grid(row=2, column=0, sticky="ew")                            # search button
 
-btn_Checkbutton_1.grid(row=4, column=0)                                        # check Buttons
-btn_Checkbutton_2.grid(row=5, column=0)                                        # check Buttons
+# check box
+suburb_label.grid(row = 0, column = 0)                                   # label
+btn_Checkbutton_1.grid(row=1, column=0)                                        # check Buttons
+btn_Checkbutton_2.grid(row=2, column=0)                                        # check Buttons
 #btn_Checkbutton_3.grid(row=6, column=0)                                        # check Buttons
 #btn_Checkbutton_4.grid(row=7, column=0)                                        # check Buttons
 #btn_Checkbutton_5.grid(row=8, column=0)                                        # check Buttons
 #btn_Checkbutton_6.grid(row=9, column=0)                                        # check Buttons
 #btn_Checkbutton_7.grid(row=10, column=0)                                       # check Buttons
 #btn_Checkbutton_8.grid(row=11, column=0)                                       # check Buttons
-checkBox_label.grid(row=12, column=0)
+checkBox_label.grid(row=3, column=0)
 
 #----------- price slider ------------------
-min_price_label.grid(row=13, column=0)
-min_price_slider.grid(row=14, column=0)
 
-max_price_label.grid(row=15, column=0)
-max_price_slider.grid(row=16, column=0)
-btn_price.grid(row=17, column=0)
+min_price_label.grid(row=0, column=0)
+min_price_slider.grid(row=2, column=0)
+max_price_label.grid(row=3, column=0)
+max_price_slider.grid(row=4, column=0)
+
 
 #----------- map graph ----------------------
-btn_map.grid(row=18, column=0)
+btn_price.grid(row=0, column=0)
+btn_map.grid(row=1, column=0)
 
 
 
