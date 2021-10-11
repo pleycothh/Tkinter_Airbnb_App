@@ -1,4 +1,10 @@
+import pandas as pd
 
+df = pd.read_csv('src/listings_summary_dec18.csv')
+df = df.groupby(['name','host_name', 'room_type', 'price' ])[["neighbourhood"]].mean
+#df.reset_index(inplace=True)
+
+print(df[:5])
 #    print(df.head(3)) # print first 3 rows in database
 #    print(df['name']) # get the item id and columns named 'name'
 #    print(df[['name', 'neighbourhood']]) # use [[]] to return more values

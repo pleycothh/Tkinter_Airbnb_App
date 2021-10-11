@@ -141,14 +141,35 @@ def price_graph():
     plt.show()
 
 #---------------------------------------- map plot-------------------------------------------
-def load_position():
-    lat = data["latitude"]
-    lan = data["longitude"]
-    pos = [0,0]
-    return pos
+def load_position(data):
+    data = data.values
+    pos = []
+    latt = []
+    lonn = []
+    for row in data:
+        lat = row[6]
+        lon = row[7]
+        position = [lat, lon]
+        pos.append(position)
 
+    for cor in pos:
+        if -33.695 > cor[0] > -34.005 and 151.323 > cor[1] > 150.631:
+            latt.append(cor[0])
+            lonn.append(cor[1])
+        else:
+            pass
+    return latt, lonn
 def map_graph():
-    pos = load_position()
+    lat, lon = load_position(data)
+    img = plt.imread('src/map.png')
+    fig, ax = plt.subplots()
+    # [151,151,35] , [-34.15, -33.5]
+
+    ax.imshow(img, extent=[150.631, 151.354, -34.109, -33.605])
+    ax.scatter(lon, lat, s=0.1, alpha=0.5)
+
+    plt.show()
+
 
 
 #---------------------------------------- scorll bar-------------------------------------------
