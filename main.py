@@ -42,7 +42,9 @@ def get_key(): # key word search by contains
 #------------------------------ check box function group--------------------------
 
 def get_selection(): # gerate the key dictionary from check box
-    result = {"Sydney":0,"Manly":0,"Leichhardt":0,"Woollahra":0,"North Sydney":0,"Waverley":0,"Mosman":0,"Pittwater":0} #,3:0,4:0,5:0,6:0,7:0,8:0
+    result = {"Sydney":0,"Manly":0,"Leichhardt":0,"Woollahra":0,"North Sydney":0,
+              "Waverley":0,"Mosman":0,"Pittwater":0} #,3:0,4:0,5:0,6:0,7:0,8:0
+    # Randwick Marrickville , Burwood Surry Hills , Bondi Junction, Rose Bay
     if var1.get() == 1:
         var = {"Sydney": 1}
         result.update(var)
@@ -189,28 +191,60 @@ def load_position(data):
     pos = []
     latt = []
     lonn = []
+    pricee = []
     for row in data:
         lat = row[5]
         lon = row[6]
-        position = [lat, lon]
+        price = row[4]
+        position = [lat, lon, price]
         pos.append(position)
+
 
     for cor in pos:
         if -33.695 > cor[0] > -34.005 and 151.323 > cor[1] > 150.631:
             latt.append(cor[0])
             lonn.append(cor[1])
+            pricee.append(cor[2])
         else:
             pass
-    return latt, lonn
+    return latt, lonn, pricee
+
+def get_color(price):
+    color = []
+    for i in price:
+        if 0 <= i < 50:
+            color.append('darkgreen')
+        elif 50 <= i < 100:            # remember use elif to exclusive the extra condition
+            color.append('lime')
+        elif 100 <= i < 150:
+            color.append('yellowgreen')
+        elif 150 <= i < 300:
+            color.append('gold')
+        elif 300 <= i < 500:
+            color.append('darkorange')
+        else:
+            color.append('maroon')
+
+    print(len(color))
+    return color
 
 def map_graph():
-    lat, lon = load_position(data)
+    lat, lon, price = load_position(data)
     img = plt.imread('src/map_2.png')
     fig, ax = plt.subplots()
+    print("lat", len(lat))
     # [151,151,35] , [-34.15, -33.5]
+    #image_2 (adjust data): [150.6310, 151.3258, -34.0088, -33.6950]
+    color = get_color(price)
+    label = ['darkgreen','lime','yellowgreen','gold','darkorange','maroon']
     ax.imshow(img, extent=[150.6310, 151.3258, -34.0088, -33.6950])
-    ax.scatter(lon, lat, s=0.1, alpha=0.5)
-
+    scatter = ax.scatter(lon, lat, s=2, c = color,alpha=0.3, edgecolors='none')
+    plt.xlabel('Latitude ')
+    plt.ylabel('Longitude')
+    plt.title("Sydney Airbnb Price Distribution Map")
+    legend1 = ax.legend(*scatter.legend_elements(), # why no legend?
+                        loc="lower left", title="Classes")
+    ax.add_artist(legend1)
     plt.show()
 
 #--------------------------------- display tabel function group --------------------------------------
