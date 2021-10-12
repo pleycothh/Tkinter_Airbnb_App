@@ -14,7 +14,6 @@ from matplotlib.backends.backend_tkagg import  FigureCanvasTkAgg, NavigationTool
 def load(path="src/listings_summary_dec18.csv"):
     df = pd.read_csv(path)
     new_df = df[['name','host_name', 'neighbourhood', 'room_type', 'price', 'latitude', 'longitude']]
-    print(new_df.shape)
 
     return new_df
 
