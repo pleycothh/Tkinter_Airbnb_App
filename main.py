@@ -113,12 +113,14 @@ def get_selection(): # gerate the key dictionary from check box
     get_checkbox(result) # call convert function for each action loop
     window.geometry("1080x801")
 
+
 def get_checkbox(dic): # convert key dictionry to list
     new_value = []
     for (key, value) in dic.items():
         if value == 1:
             new_value.append(key)
     get_neighbour(new_value) # call filter function after convert
+    return new_value
 
 def get_neighbour(key): # filter the data with key input
     if key == '':
@@ -224,14 +226,13 @@ def get_color(price):
         else:
             color.append('maroon')
 
-    print(len(color))
     return color
 
 def map_graph():
     lat, lon, price = load_position(data)
     img = plt.imread('src/map_2.png')
     fig, ax = plt.subplots()
-    print("lat", len(lat))
+
     # [151,151,35] , [-34.15, -33.5]
     #image_2 (adjust data): [150.6310, 151.3258, -34.0088, -33.6950]
     color = get_color(price)
@@ -241,9 +242,7 @@ def map_graph():
     plt.xlabel('Latitude ')
     plt.ylabel('Longitude')
     plt.title("Sydney Airbnb Price Distribution Map")
-    legend1 = ax.legend(*scatter.legend_elements(), # why no legend?
-                        loc="lower left", title="Classes")
-    ax.add_artist(legend1)
+
     plt.show()
 
 #--------------------------------- display tabel function group --------------------------------------
@@ -273,6 +272,7 @@ def show_tabel_title(data_input):
         head_label = tk.Label(second_frame, width=0, height=2, text=head)
         head_label.grid(row=0, column=c)
         c += 1
+
 
 ############################ window ##############################
 data = load() # load all data
@@ -406,3 +406,4 @@ btn_map.grid(row=1, column=0,padx=5, pady=5)
 ###################### loop #############################
 
 window.mainloop()
+
