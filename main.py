@@ -115,11 +115,13 @@ def get_selection(): # gerate the key dictionary from check box
 
 
 def get_checkbox(dic): # convert key dictionry to list
+    print('d',dic)
     new_value = []
     for (key, value) in dic.items():
         if value == 1:
             new_value.append(key)
     get_neighbour(new_value) # call filter function after convert
+    print('n',new_value)
     return new_value
 
 def get_neighbour(key): # filter the data with key input
@@ -145,12 +147,14 @@ def min_price(var):
     min_p = min_price_slider.get()
     #print('price:',min_p,'to', max_p)
     get_price()
+    return min_p
 
 def max_price(var):
     global max_p
     max_p = max_price_slider.get()
     #print('price:',min_p,'to', max_p)
     get_price()
+    return max_p
 
 def get_price(): # filter the data with key input
 
